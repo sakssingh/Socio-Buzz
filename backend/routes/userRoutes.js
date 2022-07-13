@@ -6,6 +6,7 @@ const {
   getUser,
   followUser,
   unFollowUser,
+  updateProfilePic,
 } = require("../controllers/userController");
 const { isAuthenticatedUser } = require("../middleware/auth");
 
@@ -17,5 +18,6 @@ router.route("/signin").post(loginUser);
 router.route("/user/:id").get(isAuthenticatedUser, getUser);
 router.route("/follow").put(isAuthenticatedUser, followUser);
 router.route("/unfollow").put(isAuthenticatedUser, unFollowUser);
+router.route("/updatepic").put(isAuthenticatedUser, updateProfilePic);
 
 module.exports = router;

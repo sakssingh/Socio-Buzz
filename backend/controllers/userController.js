@@ -5,7 +5,7 @@ const Post = require("../models/postModel");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, pic } = req.body;
 
     if (!name || !email || !password) {
       return res.status(422).json({
@@ -29,6 +29,7 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      pic,
     });
 
     await newUser.save();
@@ -89,13 +90,13 @@ exports.loginUser = async (req, res) => {
       });
     }
 
-    const { _id, name } = user;
+    const { _id, name, followers, following, pic } = user;
     const token = user.getJwtToken();
 
     res.status(200).json({
       success: true,
       token,
-      user: { _id, name, email },
+      user: { _id, name, email, followers, following, pic },
     });
   } catch (err) {
     return res.json({
@@ -175,5 +176,24 @@ exports.unFollowUser = async (req, res) => {
     return res.json({ result });
   } catch (err) {
     console.log(err);
+  }
+};
+
+exports.updateProfilePic = async (req, res) => {
+  try {
+    // console.log(req.body.pic);
+    const result = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        $set: { pic: req.body.pic },
+      },
+      { new: true }
+    );
+
+    res.json({
+      result,
+    });
+  } catch (err) {
+    res.status(422).json({ message: "pic cannot post" });
   }
 };

@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  pic: {
+    type: String,
+    default: "https://www.computerhope.com/jargon/g/guest-user.jpg",
+  },
   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });

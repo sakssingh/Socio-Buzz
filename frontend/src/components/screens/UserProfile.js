@@ -5,8 +5,10 @@ import { UserContext } from "../../App";
 const UserProfile = () => {
   const [userProfile, setProfile] = useState();
   const { userid } = useParams();
-  const [showFollow, setShowFollow] = useState(true);
   const { state, dispatch } = useContext(UserContext);
+  const [showFollow, setShowFollow] = useState(
+    state ? (state.following.includes(userid) ? false : true) : true
+  );
 
   async function fetchData() {
     var res = await fetch(`/user/${userid}`, {
@@ -129,7 +131,7 @@ const UserProfile = () => {
                   heigth: "160px",
                   borderRadius: "80px",
                 }}
-                src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                src={userProfile.user.pic}
               />
             </div>
             <div>
